@@ -513,5 +513,63 @@
             </summary>
             <param name="id"></param>
         </member>
+        <member name="T:ThingTalk.OpenApi.Hubs.TruTalkHub">
+            <summary>
+            Trutalk推送中心
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Hubs.TruTalkHub.send(System.String,System.String)">
+            <summary>
+            发送消息
+            </summary>
+            <param name="name"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Hubs.TruTalkHub.sendTo(System.String,System.String)">
+            <summary>
+            向指定用户发送消息
+            </summary>        
+            <param name="to"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Hubs.TruTalkHub.bind(System.String)">
+            <summary>
+            增加新用户
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Hubs.TruTalkHub.OnConnected">
+            <summary>
+            客户端连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Hubs.TruTalkHub.OnDisconnected">
+            <summary>
+            客户端断开
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Hubs.User">
+            <summary>
+            用户信息
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Hubs.User.Id">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Hubs.User.Name">
+            <summary>
+            用户名称
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Hubs.ChatHub.Send(System.String,System.String)">
+            <summary>
+            发送消息
+            </summary>
+            <param name="name"></param>
+            <param name="message"></param>
+        </member>
     </members>
 </doc>
