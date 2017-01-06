@@ -487,6 +487,22 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:ThingTalk.OpenApi.Controllers.HomeController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Controllers.HomeController.Index">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Controllers.ValuesController">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:ThingTalk.OpenApi.Controllers.ValuesController.Get">
             <summary>
             GET api/values
@@ -518,6 +534,13 @@
             DELETE api/values/5
             </summary>
             <param name="id"></param>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Controllers.ValuesController.GetUser(System.String)">
+            <summary>
+            获取用户信息
+            </summary>
+            <param name="userName">提交的参数</param>
+            <returns>用户信息</returns>
         </member>
         <member name="T:ThingTalk.OpenApi.Hubs.TruTalkHub">
             <summary>
@@ -576,6 +599,118 @@
             </summary>
             <param name="name"></param>
             <param name="message"></param>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Models.BaseResult">
+            <summary>
+            消息回复基类
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Models.BaseResult.Code">
+            <summary>
+            消息编码
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Models.BaseResult.Type">
+            <summary>
+            类别信息
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Models.BaseResult.Message">
+            <summary>
+            消息内容
+            </summary>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Models.E_TRUTALK_RESP">
+            <summary>
+            回复枚举类
+            1XXX: 授权相关
+            2XXX: 用户相关
+            3XXX: 业务相关
+            5XXX: 系统相关
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Models.E_TRUTALK_RESP.RESP_NoAuthorized">
+            <summary>
+            无权限访问
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Models.E_TRUTALK_RESP.RESP_TimeOut">
+            <summary>
+            超时
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Models.E_TRUTALK_RESP.RESP_TokenExpire">
+            <summary>
+            access_token过期
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Models.E_TRUTALK_RESP.RESP_TokenInvalid">
+            <summary>
+            unique_token无效
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Models.E_TRUTALK_RESP.RESP_UserUnLogin">
+            <summary>
+            用户未登录
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Models.E_TRUTALK_RESP.RESP_UserMsgError">
+            <summary>
+            用户信息错误
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Models.E_TRUTALK_RESP.RESP_UserUnExist">
+            <summary>
+            用户不存在
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Models.E_TRUTALK_RESP.RESP_ServiceRelate">
+            <summary>
+            业务相关
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Models.E_TRUTALK_RESP.RESP_SYSError">
+            <summary>
+            系统异常
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Models.E_TRUTALK_RESP.RESP_SUCCESS">
+            <summary>
+            操作成功
+            </summary>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Models.TruTalkResult`1">
+            <summary>
+            信云消息回复
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Models.TruTalkResult`1.BaseResult">
+            <summary>
+            回复基类
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Models.TruTalkResult`1.Data">
+            <summary>
+            自定义回复类
+            </summary>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Models.UserInfo">
+            <summary>
+            用户信息实体
+            </summary>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Providers.BaseResultHelper">
+            <summary>
+            回复信息帮助
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Providers.BaseResultHelper.ReturnBaseResult(ThingTalk.OpenApi.Models.E_TRUTALK_RESP)">
+            <summary>
+            创建回复信息
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
         </member>
         <member name="T:ThingTalk.OpenApi.Providers.ThingTalkApplicationOAuthProvider">
             <summary>
