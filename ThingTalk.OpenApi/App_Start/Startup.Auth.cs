@@ -10,16 +10,38 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using ThingTalk.OpenApi.Providers;
 using ThingTalk.OpenApi.Models;
+using Microsoft.Owin.Cors;
 
 namespace ThingTalk.OpenApi
 {
     public partial class Startup
     {
+        /// <summary>
+        /// 授权验证
+        /// </summary>
+        /// <param name="app"></param>
+        public void ConfigureAuth(IAppBuilder app)
+        {
+            var OAuthOptions = new OAuthAuthorizationServerOptions
+            {
+                TokenEndpointPath = new PathString("/token"),
+                Provider = new ThingTalkApplicationOAuthProvider(),                 
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+                AllowInsecureHttp = true
+            };
+
+            app.UseCors(CorsOptions.AllowAll);              // 允许跨域
+            app.UseOAuthBearerTokens(OAuthOptions);
+        }
+
+        #region Old Auth Method
+        /*
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
-
         public static string PublicClientId { get; private set; }
-
-        // 有关配置身份验证的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=301864
+        /// <summary>
+        /// 有关配置身份验证的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=301864
+        /// </summary>
+        /// <param name="app"></param>
         public void ConfigureAuth(IAppBuilder app)
         {
             // 将数据库上下文和用户管理器配置为对每个请求使用单个实例
@@ -64,5 +86,7 @@ namespace ThingTalk.OpenApi
             //    ClientSecret = ""
             //});
         }
+        */
+        #endregion
     }
 }

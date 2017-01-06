@@ -236,6 +236,7 @@
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ThingTalkApplicationOAuthProvider.cs" />
     <Compile Include="Providers\MyLog4NetInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -285,6 +286,7 @@
     <Content Include="Scripts\noty\layouts\topRight.js" />
     <Content Include="Scripts\noty\promise.js" />
     <Content Include="Scripts\noty\themes\default.js" />
+    <Content Include="WebPage\APITest.html" />
     <Content Include="WebPage\Chat.html" />
     <Content Include="WebPage\Index.html" />
     <Content Include="WebPage\OffLineChat.html" />

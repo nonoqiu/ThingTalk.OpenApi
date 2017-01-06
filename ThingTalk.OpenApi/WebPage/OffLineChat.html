@@ -7,6 +7,10 @@
     <div class="container">
         <input type="text" id="message" />
         <input type="button" id="sendmessage" value="Send" />
+
+        <input type="button" id="btngetValueForJquery" value="btngetValueForJquery" />
+        <input type="button" id="btngetValueForJavaXHR" value="btngetValueForJavaXHR" />
+
         <input type="hidden" id="displayname" />
         <ul id="discussion"></ul>
     </div>
@@ -15,6 +19,10 @@
     <script src="http://192.168.0.129:8006/Scripts/jquery.signalR-2.0.0.min.js"></script>
     <script src="http://192.168.0.129:8006/signalr/hubs"></script>
     <script>
+        var _getToken = "http://192.168.0.129:8006/token";
+        var _getValuesURL = "http://192.168.0.129:8006/api/values";
+        var _authBearer = "Bearer q_C4yhvR2royyX4V5j721ylv_S8lwDNm6B4vFI7qomUPm0dW6v8fKnGglLkbaUcVJS2nEksUaSGoUDuWbTndkDCN1AI070Ho30pbOGaDenzyDdfW8nkhRT62SsJ9copd9lED_2h4E4zIuSlYvq3deKsgvLN5qS67huRGEPO4Bnx1COM_SJ8EH-VbiShR_hw2";
+
         $(function () {
             var chat = $.connection.truTalkHub;            
             chat.connection.url = "http://192.168.0.129:8006/signalr";  // 测试项目的地址
@@ -39,6 +47,57 @@
 
             console.log("Now connected, connection ID=" + $.connection.hub.id);
         });
+
+        $("#btngetValueForJquery").click(function (e, n) {
+            getValueForJquery();
+        });
+        $("#btngetValueForJavaXHR").click(function (e, n) {
+            getValueForJavaXHR();
+        });
+        function getValueForJquery() {
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": _getValuesURL,
+                "method": "GET",
+                "headers": {
+                    "authorization": _authBearer,
+                    "cache-control": "no-cache",
+                    "postman-token": "88c7a4db-84ee-a59a-275e-69e5ea165bea"
+                },
+                "data": {
+                    "grant_type": "client_credentials"
+                }
+            }
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+                msgResponse("getValueForJquery", response);
+            });
+        }
+        function getValueForJavaXHR() {
+            var data = "grant_type=client_credentials";
+            var xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
+                    msgResponse("getValueForJavaXHR", this.responseText);
+                }
+            });
+
+            xhr.open("GET", _getValuesURL);
+            xhr.setRequestHeader("authorization", _authBearer);
+            xhr.setRequestHeader("cache-control", "no-cache");
+            xhr.setRequestHeader("postman-token", "b82292bb-babf-99dd-5f58-c69b58f6bddf");
+
+            xhr.send(data);
+        }
+
+        function msgResponse(type, msg) {
+            $('#discussion').append('<li><strong>' + htmlEncode(type) + '</strong>: ' + htmlEncode(msg) + '</li>');
+        }
 
         function htmlEncode(value) {
             var encodedValue = $('<div />').text(value).html();

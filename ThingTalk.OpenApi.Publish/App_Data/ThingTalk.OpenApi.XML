@@ -4,6 +4,12 @@
         <name>ThingTalk.OpenApi</name>
     </assembly>
     <members>
+        <member name="M:ThingTalk.OpenApi.Startup.ConfigureAuth(Owin.IAppBuilder)">
+            <summary>
+            授权验证
+            </summary>
+            <param name="app"></param>
+        </member>
         <member name="M:ThingTalk.OpenApi.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
             <summary>
             Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
@@ -570,6 +576,34 @@
             </summary>
             <param name="name"></param>
             <param name="message"></param>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Providers.ThingTalkApplicationOAuthProvider">
+            <summary>
+            信云客户端权限验证提供者
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Providers.ThingTalkApplicationOAuthProvider.ValidateClientAuthentication(Microsoft.Owin.Security.OAuth.OAuthValidateClientAuthenticationContext)">
+            <summary>
+            获取客户端的 client_id 与 client_secret 进行验证
+            client_id:      用户名,企业码
+            client_secret:  登录密码
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Providers.ThingTalkApplicationOAuthProvider.GrantClientCredentials(Microsoft.Owin.Security.OAuth.OAuthGrantClientCredentialsContext)">
+            <summary>
+            对客户端进行授权，授了权就能发 access token
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Providers.ThingTalkApplicationOAuthProvider.GrantResourceOwnerCredentials(Microsoft.Owin.Security.OAuth.OAuthGrantResourceOwnerCredentialsContext)">
+            <summary>
+            调用后台的登录服务验证用户名与密码(此处不验证)
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>
