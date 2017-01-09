@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using ThingTalk.OpenApi.Models;
 using ThingTalk.OpenApi.Providers;
 
 namespace ThingTalk.OpenApi
@@ -52,10 +53,31 @@ namespace ThingTalk.OpenApi
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            Exception baseException = base.Server.GetLastError().GetBaseException();
-            string text1 = "Error Caught in Application_Error event\r\nError in:" + base.Request.Url.ToString() + "\r\nError Message:" + baseException.Message.ToString() + "\r\nStack Trace:" + baseException.StackTrace.ToString();
-            MyLog4NetInfo.ErrorInfo(string.Format("Application_Error程序出错:{0}", baseException.Message));
-            MyLog4NetInfo.ErrorInfo(string.Format("Application_Error程序出错:{0}", baseException.StackTrace));
+            //Exception baseException = base.Server.GetLastError().GetBaseException();
+            //string text1 = "Error Caught in Application_Error event\r\nError in:" + base.Request.Url.ToString() + "\r\nError Message:" + baseException.Message.ToString() + "\r\nStack Trace:" + baseException.StackTrace.ToString();
+            //MyLog4NetInfo.ErrorInfo(string.Format("Application_Error程序出错:{0}", baseException.Message));
+            //MyLog4NetInfo.ErrorInfo(string.Format("Application_Error程序出错:{0}", baseException.StackTrace));
+
+
+            // Application_Error中统一处理ajax请求执行中抛出的异常
+            // http://www.cnblogs.com/dudu/p/4193541.html
+            var baseException = Server.GetLastError();
+            if (baseException != null)
+            {
+                MyLog4NetInfo.LogInfo("Application_Error", baseException);
+                if (Request != null && (new HttpRequestWrapper(Request)).IsAjaxRequest())
+                {
+                    Response.Clear();
+                    Response.ContentType = "application/json; charset=utf-8";
+                    Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(new BaseResult { Code = "5001", Message = baseException.Message, Type = "RESP_SYSError:系统异常" }));
+                    Response.Flush();
+                    Server.ClearError();
+                    return;
+                }
+
+                Response.StatusCode = 500;
+                Server.ClearError();
+            }
         }
     }
 }

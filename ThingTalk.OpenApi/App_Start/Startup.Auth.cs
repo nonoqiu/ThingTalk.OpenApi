@@ -11,6 +11,11 @@ using Owin;
 using ThingTalk.OpenApi.Providers;
 using ThingTalk.OpenApi.Models;
 using Microsoft.Owin.Cors;
+using System.ComponentModel;
+using ThingTalk.OpenApi.Application.Interfaces;
+using ThingTalk.OpenApi.Repository.Interfaces;
+using ThingTalk.OpenApi.Application.Services;
+using ThingTalk.OpenApi.Repository.FileStorage;
 
 namespace ThingTalk.OpenApi
 {
@@ -22,10 +27,16 @@ namespace ThingTalk.OpenApi
         /// <param name="app"></param>
         public void ConfigureAuth(IAppBuilder app)
         {
+            // Provider 和 RefreshTokenProvider 需使用依赖注入
+            //  var containter = IocContainer.Default = new IocUnityContainer();
+            // containter.RegisterType<IRefreshTokenService, RefreshTokenService>();
+            // containter.RegisterType<IRefreshTokenRepository, RefreshTokenRepository>();
+
             var OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/token"),
-                Provider = new ThingTalkApplicationOAuthProvider(),                 
+                Provider = new ThingTalkApplicationOAuthProvider(new ClientService(new ClientRepository())),
+                RefreshTokenProvider = new ThingTalkPersistenceRefreshTokenProvider(new RefreshTokenService(new RefreshTokenRepository())),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                 AllowInsecureHttp = true
             };

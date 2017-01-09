@@ -3,6 +3,7 @@ using System.Web.Http;
 using ThingTalk.OpenApi.Models;
 using ThingTalk.OpenApi.Providers;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace ThingTalk.OpenApi.Controllers
 {
@@ -65,7 +66,11 @@ namespace ThingTalk.OpenApi.Controllers
         [HttpGet]
         public string GetUser(string userName)
         {
-            var identity = string.Format("AuthenticationType:{0},IsAuthenticated:{1},Name:{2}.", User.Identity.AuthenticationType, User.Identity.IsAuthenticated, User.Identity.Name);
+            var oAuthIdentity = User.Identity as ClaimsIdentity;
+            //var identity = string.Format("AuthenticationType:{0},IsAuthenticated:{1},Name:{2}-{3},UserData:{4}.",
+            //    User.Identity.AuthenticationType, User.Identity.IsAuthenticated, User.Identity.Name, oAuthIdentity.Name, oAuthIdentity.FindFirst("userdata").Value);
+            var identity = string.Format("AuthenticationType:{0},IsAuthenticated:{1},Name:{2}.",
+                User.Identity.AuthenticationType, User.Identity.IsAuthenticated, User.Identity.Name);
 
             var json = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_NoAuthorized);
             json.Type = "Login:" + identity;
@@ -86,6 +91,7 @@ namespace ThingTalk.OpenApi.Controllers
                         UserName = userName
                     }
                 };
+                entity.BaseResult.Type = "GetUser";
                 return JsonConvert.SerializeObject(entity);
             }
 

@@ -1,0 +1,7 @@
+[
+  {
+    "Id": "trutalk",
+    "Secret": "111222333444555",
+    "RefreshTokenLifeTime": "36000"
+  }
+]

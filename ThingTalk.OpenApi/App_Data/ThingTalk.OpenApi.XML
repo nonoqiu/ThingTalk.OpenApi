@@ -4,6 +4,104 @@
         <name>ThingTalk.OpenApi</name>
     </assembly>
     <members>
+        <member name="T:ThingTalk.OpenApi.Application.Interfaces.IClientService">
+            <summary>
+            与Client相关的服务接口
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Interfaces.IClientService.Get(System.String)">
+            <summary>
+            通过clientId获取客户端信息
+            </summary>
+            <param name="clientId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Application.Interfaces.IRefreshTokenService">
+            <summary>
+            与RefreshToken相关的服务接口
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Interfaces.IRefreshTokenService.Get(System.String)">
+            <summary>
+            在刷新access token时获取RefreshToken
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Interfaces.IRefreshTokenService.Save(ThingTalk.OpenApi.Application.Domain.RefreshToken)">
+            <summary>
+            保存RefreshToken
+            </summary>
+            <param name="refreshToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Interfaces.IRefreshTokenService.Remove(System.String)">
+            <summary>
+            删除RefreshToken
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Application.Services.ClientService">
+            <summary>
+            实现了IClientService接口的服务类
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Application.Services.ClientService._clientRepository">
+            <summary>
+            IClientRepository仓库实例
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Services.ClientService.#ctor(ThingTalk.OpenApi.Repository.Interfaces.IClientRepository)">
+            <summary>
+            使用IClientRepository构造服务实例
+            </summary>
+            <param name="clientRepository"></param>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Services.ClientService.Get(System.String)">
+            <summary>
+            在刷新access token时获取RefreshToken
+            </summary>
+            <param name="clientId"></param>
+            <returns></returns>        
+        </member>
+        <member name="T:ThingTalk.OpenApi.Application.Services.RefreshTokenService">
+            <summary>
+            实现了IRefreshTokenService接口的服务类
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Application.Services.RefreshTokenService._refreshTokenRepository">
+            <summary>
+            IRefreshTokenRepository仓库实例
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Services.RefreshTokenService.#ctor(ThingTalk.OpenApi.Repository.Interfaces.IRefreshTokenRepository)">
+            <summary>
+            使用IRefreshTokenRepository构造服务实例
+            </summary>
+            <param name="refreshTokenRepository"></param>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Services.RefreshTokenService.Get(System.String)">
+            <summary>
+            在刷新access token时获取RefreshToken
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Services.RefreshTokenService.Save(ThingTalk.OpenApi.Application.Domain.RefreshToken)">
+            <summary>
+            保存RefreshToken
+            </summary>
+            <param name="refreshToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Services.RefreshTokenService.Remove(System.String)">
+            <summary>
+            删除RefreshToken
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
         <member name="M:ThingTalk.OpenApi.Startup.ConfigureAuth(Owin.IAppBuilder)">
             <summary>
             授权验证
@@ -712,10 +810,60 @@
             <param name="type"></param>
             <returns></returns>
         </member>
+        <member name="T:ThingTalk.OpenApi.Providers.ThingTalkPersistenceRefreshTokenProvider">
+            <summary>
+            信云客户端权限刷新验证持久化提供者
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Providers.ThingTalkPersistenceRefreshTokenProvider.#ctor(ThingTalk.OpenApi.Application.Interfaces.IRefreshTokenService)">
+            <summary>
+            构造函数之信云客户端权限刷新验证持久化提供者
+            </summary>
+            <param name="refreshTokenService"></param>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Providers.ThingTalkPersistenceRefreshTokenProvider.CreateAsync(Microsoft.Owin.Security.Infrastructure.AuthenticationTokenCreateContext)">
+            <summary>
+            用RNGCryptoServiceProvider生成refresh token，并获取相关信息，创建RefreshToken
+            并调用 IRefreshTokenService.Save() 进行持久化保存。
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Providers.ThingTalkPersistenceRefreshTokenProvider.ReceiveAsync(Microsoft.Owin.Security.Infrastructure.AuthenticationTokenReceiveContext)">
+            <summary>
+            调用 IRefreshTokenService.Get() 获取 RefreshToken，用它反序列出生成access token所需的ticket，
+            从持久化中删除旧的refresh token（刷新access token时，refresh token也会重新生成）。
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Providers.ThingTalkRefreshTokenProvider">
+            <summary>
+            信云客户端权限刷新验证提供者
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Providers.ThingTalkRefreshTokenProvider.Create(Microsoft.Owin.Security.Infrastructure.AuthenticationTokenCreateContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Providers.ThingTalkRefreshTokenProvider.Receive(Microsoft.Owin.Security.Infrastructure.AuthenticationTokenReceiveContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
         <member name="T:ThingTalk.OpenApi.Providers.ThingTalkApplicationOAuthProvider">
             <summary>
             信云客户端权限验证提供者
             </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Providers.ThingTalkApplicationOAuthProvider.#ctor(ThingTalk.OpenApi.Application.Interfaces.IClientService)">
+            <summary>
+            构造函数之客户端权限验证提供者
+            </summary>
+            <param name="clientService"></param>
         </member>
         <member name="M:ThingTalk.OpenApi.Providers.ThingTalkApplicationOAuthProvider.ValidateClientAuthentication(Microsoft.Owin.Security.OAuth.OAuthValidateClientAuthenticationContext)">
             <summary>
@@ -728,16 +876,104 @@
         </member>
         <member name="M:ThingTalk.OpenApi.Providers.ThingTalkApplicationOAuthProvider.GrantClientCredentials(Microsoft.Owin.Security.OAuth.OAuthGrantClientCredentialsContext)">
             <summary>
-            对客户端进行授权，授了权就能发 access token
+            对客户端进行授权，授了权就能发 access token, 适用 grant_type: client_credentials
             </summary>
             <param name="context"></param>
             <returns></returns>
         </member>
         <member name="M:ThingTalk.OpenApi.Providers.ThingTalkApplicationOAuthProvider.GrantResourceOwnerCredentials(Microsoft.Owin.Security.OAuth.OAuthGrantResourceOwnerCredentialsContext)">
             <summary>
-            调用后台的登录服务验证用户名与密码(此处不验证)
+            调用后台的登录服务验证用户名与密码, 适用 grant_type: password        
             </summary>
             <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Providers.ThingTalkApplicationOAuthProvider.GrantRefreshToken(Microsoft.Owin.Security.OAuth.OAuthGrantRefreshTokenContext)">
+            <summary>
+            验证持有 refresh token 的客户端
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Repository.FileStorage.ClientRepository">
+            <summary>
+            实现了IClientRepository接口的仓库类
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.FileStorage.ClientRepository.FindById(System.String)">
+            <summary>
+            查找指定ID的Client
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Repository.FileStorage.RefreshTokenRepository">
+            <summary>
+            实现了IRefreshTokenRepository接口的仓库类
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.FileStorage.RefreshTokenRepository.#ctor">
+            <summary>
+            构造函数：初始化RefreshToken数据
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.FileStorage.RefreshTokenRepository.FindById(System.String)">
+            <summary>
+            根据ID查找RefreshToken
+            </summary>
+            <param name="Id">RefreshToken ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.FileStorage.RefreshTokenRepository.Insert(ThingTalk.OpenApi.Application.Domain.RefreshToken)">
+            <summary>
+            插入RefreshToken
+            </summary>
+            <param name="refreshToken">RefreshToken实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.FileStorage.RefreshTokenRepository.Delete(System.String)">
+            <summary>
+            删除指定的RefreshToken
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Repository.Interfaces.IClientRepository">
+            <summary>
+            与Client相关的仓库接口
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.Interfaces.IClientRepository.FindById(System.String)">
+            <summary>
+            查找Client
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Repository.Interfaces.IRefreshTokenRepository">
+            <summary>
+            与RefreshToken相关的仓库接口
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.Interfaces.IRefreshTokenRepository.FindById(System.String)">
+            <summary>
+            查找RefreshToken
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.Interfaces.IRefreshTokenRepository.Insert(ThingTalk.OpenApi.Application.Domain.RefreshToken)">
+            <summary>
+            新增RefreshToken
+            </summary>
+            <param name="refreshToken">RefreshToken实体</param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.Interfaces.IRefreshTokenRepository.Delete(System.String)">
+            <summary>
+            删除RefreshToken
+            </summary>
+            <param name="Id"></param>
             <returns></returns>
         </member>
     </members>

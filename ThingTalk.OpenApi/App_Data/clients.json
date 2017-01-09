@@ -1,0 +1,7 @@
+[
+  {
+    "Id": "1234",
+    "Secret": "5678",
+    "RefreshTokenLifeTime": "36000"
+  }
+]

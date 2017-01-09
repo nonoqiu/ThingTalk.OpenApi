@@ -11,8 +11,35 @@ using ThingTalk.OpenApi.Controllers;
 namespace ThingTalk.OpenApi.Tests.Controllers
 {
     [TestClass]
-    public class ValuesControllerTest
+    public class ValuesControllerTest : ApiTestBase
     {
+        public override string GetBaseAddress()
+        {
+            return "http://localhost:33203/";
+        }
+
+        //[TestMethod]
+        //public void Should_get_order_successfully()
+        //{
+        //    var result = InvokeGetRequest<Order>("api/order");
+
+        //    result.Name.Should().Be("name");
+        //    result.Descriptions.Should().Be("descriptions");
+        //    result.Id.Should().Be(1);
+        //}
+
+        //[TestMethod]
+        //public void Should_post_order_successfully()
+        //{
+        //    var newOrder = new Order() { Name = "newOrder", Id = 100, Descriptions = "new-order-description" };
+
+        //    var result = InvokePostRequest<Order, Order>("api/order", newOrder);
+
+        //    result.Name.Should().Be("newOrder");
+        //    result.Id.Should().Be(100);
+        //    result.Descriptions.Should().Be("new-order-description");
+        //}
+
         [TestMethod]
         public void Get()
         {
