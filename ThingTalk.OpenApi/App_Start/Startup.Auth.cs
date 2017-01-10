@@ -1,16 +1,19 @@
 ﻿using System;
+using Owin;
+using Microsoft.Owin;
+using Microsoft.Owin.Cors;
+using Microsoft.Owin.Security.OAuth;
+using System.Web.Mvc;
+using Microsoft.Owin.Security.Infrastructure;
+
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
-using Microsoft.Owin.Security.OAuth;
-using Owin;
 using ThingTalk.OpenApi.Providers;
 using ThingTalk.OpenApi.Models;
-using Microsoft.Owin.Cors;
 using System.ComponentModel;
 using ThingTalk.OpenApi.Application.Interfaces;
 using ThingTalk.OpenApi.Repository.Interfaces;
@@ -22,27 +25,29 @@ namespace ThingTalk.OpenApi
     public partial class Startup
     {
         /// <summary>
-        /// 授权验证
+        /// 配置授权验证
         /// </summary>
         /// <param name="app"></param>
         public void ConfigureAuth(IAppBuilder app)
         {
-            // Provider 和 RefreshTokenProvider 需使用依赖注入
-            //  var containter = IocContainer.Default = new IocUnityContainer();
-            // containter.RegisterType<IRefreshTokenService, RefreshTokenService>();
-            // containter.RegisterType<IRefreshTokenRepository, RefreshTokenRepository>();
-
             var OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/token"),
-                Provider = new ThingTalkApplicationOAuthProvider(new ClientService(new ClientRepository())),
-                RefreshTokenProvider = new ThingTalkPersistenceRefreshTokenProvider(new RefreshTokenService(new RefreshTokenRepository())),
+
+                //Provider = new ThingTalkApplicationOAuthProvider(new ClientService(new ClientRepository())),
+                //RefreshTokenProvider = new ThingTalkPersistenceRefreshTokenProvider(new RefreshTokenService(new RefreshTokenRepository())),
+
+                // 在 App_Start -> IocConfig 中使用依赖注入获取相关提供者
+                Provider = DependencyResolver.Current.GetService<OAuthAuthorizationServerProvider>(),
+                RefreshTokenProvider = DependencyResolver.Current.GetService<AuthenticationTokenProvider>(),
+
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                 AllowInsecureHttp = true
             };
 
             app.UseCors(CorsOptions.AllowAll);              // 允许跨域
             app.UseOAuthBearerTokens(OAuthOptions);
+            
         }
 
         #region Old Auth Method

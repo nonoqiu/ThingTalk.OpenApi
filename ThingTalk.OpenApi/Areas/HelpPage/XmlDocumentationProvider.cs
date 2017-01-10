@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using System.Xml.XPath;
@@ -25,11 +26,12 @@ namespace ThingTalk.OpenApi.Areas.HelpPage
         /// Initializes a new instance of the <see cref="XmlDocumentationProvider"/> class.
         /// </summary>
         /// <param name="documentPath">The physical path to XML document.</param>
-        public XmlDocumentationProvider(string documentPath)
+        public XmlDocumentationProvider(string documentPath = "")
         {
-            if (documentPath == null)
+            if (string.IsNullOrEmpty(documentPath))
             {
-                throw new ArgumentNullException("documentPath");
+                //throw new ArgumentNullException("documentPath");
+                documentPath = HttpContext.Current.Server.MapPath("~/App_Data/ThingTalk.OpenApi.xml");
             }
             XPathDocument xpath = new XPathDocument(documentPath);
             _documentNavigator = xpath.CreateNavigator();

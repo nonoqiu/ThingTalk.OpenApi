@@ -4,6 +4,7 @@ using ThingTalk.OpenApi.Models;
 using ThingTalk.OpenApi.Providers;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using ThingTalk.OpenApi.Application.Interfaces;
 
 namespace ThingTalk.OpenApi.Controllers
 {
@@ -13,6 +14,18 @@ namespace ThingTalk.OpenApi.Controllers
     [Authorize]
     public class ValuesController : ApiController
     {
+        //private IRefreshTokenRepository repository;
+
+        private IRefreshTokenService _refreshTokenService;
+        /// <summary>
+        /// 构造函数：传入IRefreshTokenService接口实例
+        /// </summary>
+        /// <param name="refreshTokenService"></param>
+        public ValuesController(IRefreshTokenService refreshTokenService)
+        {
+            _refreshTokenService = refreshTokenService;
+        }
+
         /// <summary>
         /// GET api/values
         /// </summary>
@@ -66,11 +79,16 @@ namespace ThingTalk.OpenApi.Controllers
         [HttpGet]
         public string GetUser(string userName)
         {
+            _refreshTokenService.Get("sss");
+
             var oAuthIdentity = User.Identity as ClaimsIdentity;
             //var identity = string.Format("AuthenticationType:{0},IsAuthenticated:{1},Name:{2}-{3},UserData:{4}.",
             //    User.Identity.AuthenticationType, User.Identity.IsAuthenticated, User.Identity.Name, oAuthIdentity.Name, oAuthIdentity.FindFirst("userdata").Value);
             var identity = string.Format("AuthenticationType:{0},IsAuthenticated:{1},Name:{2}.",
                 User.Identity.AuthenticationType, User.Identity.IsAuthenticated, User.Identity.Name);
+
+            var refreshToken = _refreshTokenService.Get(User.Identity.Name);
+            identity += ", " + refreshToken.Id;
 
             var json = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_NoAuthorized);
             json.Type = "Login:" + identity;

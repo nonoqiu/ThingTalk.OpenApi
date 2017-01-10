@@ -102,9 +102,20 @@
             <param name="Id"></param>
             <returns></returns>
         </member>
+        <member name="T:ThingTalk.OpenApi.App_Start.IocConfig">
+            <summary>
+            依赖注入配置类
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.App_Start.IocConfig.RegisterDependencies">
+            <summary>
+            初始化依赖配置项
+            注册类别参考：http://www.cnblogs.com/jys509/p/4649798.html
+            </summary>
+        </member>
         <member name="M:ThingTalk.OpenApi.Startup.ConfigureAuth(Owin.IAppBuilder)">
             <summary>
-            授权验证
+            配置授权验证
             </summary>
             <param name="app"></param>
         </member>
@@ -600,6 +611,12 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Controllers.ValuesController.#ctor(ThingTalk.OpenApi.Application.Interfaces.IRefreshTokenService)">
+            <summary>
+            构造函数：传入IRefreshTokenService接口实例
+            </summary>
+            <param name="refreshTokenService"></param>
         </member>
         <member name="M:ThingTalk.OpenApi.Controllers.ValuesController.Get">
             <summary>
