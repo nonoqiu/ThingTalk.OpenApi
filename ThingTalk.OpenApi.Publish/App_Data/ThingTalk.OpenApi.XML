@@ -16,6 +16,25 @@
             <param name="clientId"></param>
             <returns></returns>
         </member>
+        <member name="M:ThingTalk.OpenApi.Application.Interfaces.IClientService.AccessCheck(System.String,System.String,System.String)">
+            <summary>
+            权限验证
+            </summary>
+            <param name="userName">用户名</param>
+            <param name="password">用户密码</param>
+            <param name="deptCode">企业码</param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Interfaces.IClientService.ChangePassword(System.String,System.String,System.String,System.String)">
+            <summary>
+            更改密码
+            </summary>
+            <param name="userName">用户名</param>
+            <param name="deptCode">企业码</param>
+            <param name="oldPsd">旧密码</param>
+            <param name="newPsd">新密码</param>
+            <returns></returns>
+        </member>
         <member name="T:ThingTalk.OpenApi.Application.Interfaces.IRefreshTokenService">
             <summary>
             与RefreshToken相关的服务接口
@@ -26,6 +45,13 @@
             在刷新access token时获取RefreshToken
             </summary>
             <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Interfaces.IRefreshTokenService.FindByUserName(System.String)">
+            <summary>
+            通过用户名查找RefreshToken
+            </summary>
+            <param name="UserName"></param>
             <returns></returns>
         </member>
         <member name="M:ThingTalk.OpenApi.Application.Interfaces.IRefreshTokenService.Save(ThingTalk.OpenApi.Application.Domain.RefreshToken)">
@@ -60,10 +86,29 @@
         </member>
         <member name="M:ThingTalk.OpenApi.Application.Services.ClientService.Get(System.String)">
             <summary>
-            在刷新access token时获取RefreshToken
+            根据clientId获取相应的Client信息
             </summary>
             <param name="clientId"></param>
             <returns></returns>        
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Services.ClientService.AccessCheck(System.String,System.String,System.String)">
+            <summary>
+            权限验证
+            </summary>
+            <param name="userName">用户名</param>
+            <param name="password">用户密码</param>
+            <param name="deptCode">企业码</param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Application.Services.ClientService.ChangePassword(System.String,System.String,System.String,System.String)">
+            <summary>
+            更改密码
+            </summary>
+            <param name="userName">用户名</param>
+            <param name="deptCode">企业码</param>
+            <param name="oldPsd">旧密码</param>
+            <param name="newPsd">新密码</param>
+            <returns></returns>
         </member>
         <member name="T:ThingTalk.OpenApi.Application.Services.RefreshTokenService">
             <summary>
@@ -88,6 +133,13 @@
             <param name="Id"></param>
             <returns></returns>
         </member>
+        <member name="M:ThingTalk.OpenApi.Application.Services.RefreshTokenService.FindByUserName(System.String)">
+            <summary>
+            通过用户名查找RefreshToken
+            </summary>
+            <param name="UserName"></param>
+            <returns></returns>
+        </member>
         <member name="M:ThingTalk.OpenApi.Application.Services.RefreshTokenService.Save(ThingTalk.OpenApi.Application.Domain.RefreshToken)">
             <summary>
             保存RefreshToken
@@ -101,6 +153,66 @@
             </summary>
             <param name="Id"></param>
             <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Application.Domain.Account">
+            <summary>
+            帐户信息
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.Account.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.Account.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.Account.DeptCode">
+            <summary>
+            企业码
+            </summary>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Application.Domain.RefreshToken">
+            <summary>
+            用户Token实体
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.RefreshToken.Id">
+            <summary>
+            refreshToken值
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.RefreshToken.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.RefreshToken.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.RefreshToken.ClientId">
+            <summary>
+            客户ID
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.RefreshToken.IssuedUtc">
+            <summary>
+            发布时间
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.RefreshToken.ExpiresUtc">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.RefreshToken.ProtectedTicket">
+            <summary>
+            Ticket凭据
+            </summary>
         </member>
         <member name="T:ThingTalk.OpenApi.App_Start.IocConfig">
             <summary>
@@ -607,9 +719,34 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:ThingTalk.OpenApi.Controllers.AccountController">
+            <summary>
+            帐号相关接口
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Controllers.AccountController.#ctor(ThingTalk.OpenApi.Application.Interfaces.IRefreshTokenService)">
+            <summary>
+            构造函数：传入IRefreshTokenService接口实例
+            </summary>
+            <param name="refreshTokenService"></param>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Controllers.AccountController.Logout">
+            <summary>
+            注销登录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Controllers.AccountController.ChangePassword(System.String,System.String)">
+            <summary>
+            更改密码
+            </summary>
+            <param name="OldPassword"></param>
+            <param name="NewPassword"></param>
+            <returns></returns>
+        </member>
         <member name="T:ThingTalk.OpenApi.Controllers.ValuesController">
             <summary>
-            
+            测试接口
             </summary>
         </member>
         <member name="M:ThingTalk.OpenApi.Controllers.ValuesController.#ctor(ThingTalk.OpenApi.Application.Interfaces.IRefreshTokenService)">
@@ -820,11 +957,12 @@
             回复信息帮助
             </summary>
         </member>
-        <member name="M:ThingTalk.OpenApi.Providers.BaseResultHelper.ReturnBaseResult(ThingTalk.OpenApi.Models.E_TRUTALK_RESP)">
+        <member name="M:ThingTalk.OpenApi.Providers.BaseResultHelper.ReturnBaseResult(ThingTalk.OpenApi.Models.E_TRUTALK_RESP,System.String)">
             <summary>
             创建回复信息
             </summary>
-            <param name="type"></param>
+            <param name="eType">类别枚举值</param>
+            <param name="typeCode">类型编码</param>
             <returns></returns>
         </member>
         <member name="T:ThingTalk.OpenApi.Providers.ThingTalkPersistenceRefreshTokenProvider">
@@ -924,6 +1062,25 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:ThingTalk.OpenApi.Repository.FileStorage.ClientRepository.AccessCheck(System.String,System.String,System.String)">
+            <summary>
+            权限验证
+            </summary>
+            <param name="userName">用户名</param>
+            <param name="password">用户密码</param>
+            <param name="deptCode">企业码</param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.FileStorage.ClientRepository.ChangePassword(System.String,System.String,System.String,System.String)">
+            <summary>
+            更改密码
+            </summary>
+            <param name="userName">用户名</param>
+            <param name="deptCode">企业码</param>
+            <param name="oldPsd">旧密码</param>
+            <param name="newPsd">新密码</param>
+            <returns></returns>
+        </member>
         <member name="T:ThingTalk.OpenApi.Repository.FileStorage.RefreshTokenRepository">
             <summary>
             实现了IRefreshTokenRepository接口的仓库类
@@ -939,6 +1096,13 @@
             根据ID查找RefreshToken
             </summary>
             <param name="Id">RefreshToken ID</param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.FileStorage.RefreshTokenRepository.FindByUserName(System.String)">
+            <summary>
+            通过用户名查找RefreshToken
+            </summary>
+            <param name="UserName"></param>
             <returns></returns>
         </member>
         <member name="M:ThingTalk.OpenApi.Repository.FileStorage.RefreshTokenRepository.Insert(ThingTalk.OpenApi.Application.Domain.RefreshToken)">
@@ -967,6 +1131,25 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:ThingTalk.OpenApi.Repository.Interfaces.IClientRepository.AccessCheck(System.String,System.String,System.String)">
+            <summary>
+            权限验证
+            </summary>
+            <param name="userName">用户名</param>
+            <param name="password">用户密码</param>
+            <param name="deptCode">企业码</param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.Interfaces.IClientRepository.ChangePassword(System.String,System.String,System.String,System.String)">
+            <summary>
+            更改密码
+            </summary>
+            <param name="userName">用户名</param>
+            <param name="deptCode">企业码</param>
+            <param name="oldPsd">旧密码</param>
+            <param name="newPsd">新密码</param>
+            <returns></returns>
+        </member>
         <member name="T:ThingTalk.OpenApi.Repository.Interfaces.IRefreshTokenRepository">
             <summary>
             与RefreshToken相关的仓库接口
@@ -977,6 +1160,13 @@
             查找RefreshToken
             </summary>
             <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.Interfaces.IRefreshTokenRepository.FindByUserName(System.String)">
+            <summary>
+            通过用户名查找RefreshToken
+            </summary>
+            <param name="UserName"></param>
             <returns></returns>
         </member>
         <member name="M:ThingTalk.OpenApi.Repository.Interfaces.IRefreshTokenRepository.Insert(ThingTalk.OpenApi.Application.Domain.RefreshToken)">

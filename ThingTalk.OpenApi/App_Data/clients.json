@@ -1,7 +1,7 @@
 [
   {
-    "Id": "1234",
-    "Secret": "5678",
+    "Id": "trutalkclient",
+    "Secret": "123456",
     "RefreshTokenLifeTime": "36000"
   }
 ]

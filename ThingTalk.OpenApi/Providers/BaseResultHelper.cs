@@ -23,9 +23,10 @@ namespace ThingTalk.OpenApi.Providers
         /// <summary>
         /// 创建回复信息
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="eType">类别枚举值</param>
+        /// <param name="typeCode">类型编码</param>
         /// <returns></returns>
-        public static BaseResult ReturnBaseResult(E_TRUTALK_RESP type)
+        public static BaseResult ReturnBaseResult(E_TRUTALK_RESP eType, string typeCode)
         {
             if (_dicRespDesc.Count == 0)
             {
@@ -40,7 +41,8 @@ namespace ThingTalk.OpenApi.Providers
                 _dicRespDesc.Add(E_TRUTALK_RESP.RESP_SYSError, new BaseResult { Code = "5001", Message = "系统异常!" });
                 _dicRespDesc.Add(E_TRUTALK_RESP.RESP_SUCCESS, new BaseResult { Code = "8888", Message = "操作成功!" });
             }
-            return _dicRespDesc[type];
+            _dicRespDesc[eType].Type = typeCode;
+            return _dicRespDesc[eType];
         }
     }
 }

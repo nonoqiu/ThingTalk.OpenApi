@@ -50,6 +50,8 @@ namespace ThingTalk.OpenApi.Providers
                 Id = refreshTokenId,
                 ClientId = clientID,
                 UserName = context.Ticket.Identity.Name,
+                Password = "",
+                //Password = (context.Ticket.Identity as ClaimsIdentity).FindFirst("userdata").Value,
                 IssuedUtc = DateTime.UtcNow,
                 ExpiresUtc = DateTime.UtcNow.AddSeconds(Convert.ToDouble(refreshTokenLifeTime)),
                 ProtectedTicket = context.SerializeTicket()

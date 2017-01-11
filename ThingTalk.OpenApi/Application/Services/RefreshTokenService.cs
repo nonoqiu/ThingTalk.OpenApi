@@ -36,6 +36,15 @@ namespace ThingTalk.OpenApi.Application.Services
             return await _refreshTokenRepository.FindById(Id);
         }
         /// <summary>
+        /// 通过用户名查找RefreshToken
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <returns></returns>
+        public RefreshToken FindByUserName(string UserName)
+        {
+            return _refreshTokenRepository.FindByUserName(UserName);
+        }
+        /// <summary>
         /// 保存RefreshToken
         /// </summary>
         /// <param name="refreshToken"></param>

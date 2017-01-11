@@ -37,7 +37,7 @@ namespace ThingTalk.OpenApi.App_Start
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             builder.RegisterType<RefreshTokenRepository>().As<IRefreshTokenRepository>().SingleInstance();
-            builder.RegisterType<ClientRepository>().As<IClientRepository>();
+            builder.RegisterType<ClientRepository>().As<IClientRepository>().SingleInstance();
 
             builder.RegisterType<ClientService>().As<IClientService>();
             builder.RegisterType<RefreshTokenService>().As<IRefreshTokenService>().InstancePerLifetimeScope();

@@ -77,18 +77,28 @@ namespace ThingTalk.OpenApi.Providers
             //oAuthIdentity.AddClaim(new Claim(ClaimTypes.UserData, context.Password));
 
             // 身份验证
-            // 生成唯一的客户信息
-            RandomNumberGenerator cryptoRandomDataGenerator = new RNGCryptoServiceProvider();
-            byte[] buffer = new byte[50];
-            cryptoRandomDataGenerator.GetBytes(buffer);
-            var userName = Convert.ToBase64String(buffer).TrimEnd('=').Replace('+', '-').Replace('/', '_');
-            oAuthIdentity.AddClaim(new Claim(ClaimTypes.Name, context.UserName + "," + userName));
-            //oAuthIdentity.AddClaim(new Claim(ClaimTypes.UserData, userName));
+            var authData = context.UserName.Split(',');
+            if (authData.Length == 2)
+            {
+                var username = authData[0];
+                var deptcode = authData[1];
+                var account = _clientService.AccessCheck(username, context.Password, deptcode);
+                if (account != null)
+                {
+                    // 生成唯一的客户信息
+                    RandomNumberGenerator cryptoRandomDataGenerator = new RNGCryptoServiceProvider();
+                    byte[] buffer = new byte[50];
+                    cryptoRandomDataGenerator.GetBytes(buffer);
+                    var userName = Convert.ToBase64String(buffer).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+                    oAuthIdentity.AddClaim(new Claim(ClaimTypes.Name, context.UserName + "," + userName));
+                    //oAuthIdentity.AddClaim(new Claim(ClaimTypes.UserData, context.Password));
 
-            var ticket = new AuthenticationTicket(oAuthIdentity, new AuthenticationProperties());
-            context.Validated(ticket);
+                    var ticket = new AuthenticationTicket(oAuthIdentity, new AuthenticationProperties());
+                    context.Validated(ticket);
 
-            await base.GrantResourceOwnerCredentials(context);
+                    await base.GrantResourceOwnerCredentials(context);
+                }
+            }
         }
         /// <summary>
         /// 验证持有 refresh token 的客户端

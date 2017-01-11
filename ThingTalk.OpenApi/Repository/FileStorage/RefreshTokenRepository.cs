@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Hosting;
 using ThingTalk.OpenApi.Application.Domain;
 using ThingTalk.OpenApi.Repository.Interfaces;
@@ -40,6 +38,15 @@ namespace ThingTalk.OpenApi.Repository.FileStorage
         public async Task<RefreshToken> FindById(string Id)
         {
             return _refreshTokens.Where(x => x.Id == Id).FirstOrDefault();
+        }
+        /// <summary>
+        /// 通过用户名查找RefreshToken
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <returns></returns>
+        public RefreshToken FindByUserName(string UserName)
+        {
+            return _refreshTokens.Where(x => x.UserName == UserName).FirstOrDefault();
         }
         /// <summary>
         /// 插入RefreshToken

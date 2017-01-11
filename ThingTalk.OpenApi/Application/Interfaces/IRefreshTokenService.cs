@@ -19,6 +19,12 @@ namespace ThingTalk.OpenApi.Application.Interfaces
         /// <returns></returns>
         Task<RefreshToken> Get(string Id);
         /// <summary>
+        /// 通过用户名查找RefreshToken
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <returns></returns>
+        RefreshToken FindByUserName(string UserName);
+        /// <summary>
         /// 保存RefreshToken
         /// </summary>
         /// <param name="refreshToken"></param>

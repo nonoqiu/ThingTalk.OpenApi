@@ -9,7 +9,7 @@ using ThingTalk.OpenApi.Application.Interfaces;
 namespace ThingTalk.OpenApi.Controllers
 {
     /// <summary>
-    /// 
+    /// 测试接口
     /// </summary>
     [Authorize]
     public class ValuesController : ApiController
@@ -90,7 +90,7 @@ namespace ThingTalk.OpenApi.Controllers
             var refreshToken = _refreshTokenService.Get(User.Identity.Name);
             identity += ", " + refreshToken.Id;
 
-            var json = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_NoAuthorized);
+            var json = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_NoAuthorized, "GetUser");
             json.Type = "Login:" + identity;
             if (string.IsNullOrEmpty(userName))
             {
@@ -101,7 +101,7 @@ namespace ThingTalk.OpenApi.Controllers
             {
                 var entity = new TruTalkResult<UserInfo>
                 {
-                    BaseResult = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_SUCCESS),
+                    BaseResult = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_SUCCESS, "GetUser"),
                     Data = new UserInfo()
                     {
                         DeptCode = "270806",
@@ -113,7 +113,7 @@ namespace ThingTalk.OpenApi.Controllers
                 return JsonConvert.SerializeObject(entity);
             }
 
-            json = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_UserUnLogin);
+            json = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_UserUnLogin, "GetUser");
             json.Type = "Login:" + identity;
             return JsonConvert.SerializeObject(json);
         }

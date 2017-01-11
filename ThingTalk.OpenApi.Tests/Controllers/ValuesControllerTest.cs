@@ -7,12 +7,15 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ThingTalk.OpenApi;
 using ThingTalk.OpenApi.Controllers;
+using ThingTalk.OpenApi.Application.Interfaces;
 
 namespace ThingTalk.OpenApi.Tests.Controllers
 {
     [TestClass]
     public class ValuesControllerTest : ApiTestBase
     {
+        private IRefreshTokenService _refreshTokenService;
+
         public override string GetBaseAddress()
         {
             return "http://localhost:33203/";
@@ -44,7 +47,7 @@ namespace ThingTalk.OpenApi.Tests.Controllers
         public void Get()
         {
             // 排列
-            ValuesController controller = new ValuesController();
+            ValuesController controller = new ValuesController(_refreshTokenService);
 
             // 操作
             IEnumerable<string> result = controller.Get();
@@ -60,7 +63,7 @@ namespace ThingTalk.OpenApi.Tests.Controllers
         public void GetById()
         {
             // 排列
-            ValuesController controller = new ValuesController();
+            ValuesController controller = new ValuesController(_refreshTokenService);
 
             // 操作
             string result = controller.Get(5);
@@ -73,7 +76,7 @@ namespace ThingTalk.OpenApi.Tests.Controllers
         public void Post()
         {
             // 排列
-            ValuesController controller = new ValuesController();
+            ValuesController controller = new ValuesController(_refreshTokenService);
 
             // 操作
             controller.Post("value");
@@ -85,7 +88,7 @@ namespace ThingTalk.OpenApi.Tests.Controllers
         public void Put()
         {
             // 排列
-            ValuesController controller = new ValuesController();
+            ValuesController controller = new ValuesController(_refreshTokenService);
 
             // 操作
             controller.Put(5, "value");
@@ -97,7 +100,7 @@ namespace ThingTalk.OpenApi.Tests.Controllers
         public void Delete()
         {
             // 排列
-            ValuesController controller = new ValuesController();
+            ValuesController controller = new ValuesController(_refreshTokenService);
 
             // 操作
             controller.Delete(5);
