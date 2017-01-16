@@ -243,9 +243,14 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\NotifyController.cs" />
+    <Compile Include="Controllers\TruTalkServiceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Domain\E_NOTIFY_TYPE.cs" />
+    <Compile Include="Domain\TruTalkMsg.cs" />
+    <Compile Include="Domain\Notify.cs" />
     <Compile Include="Domain\Account.cs" />
     <Compile Include="Domain\Client.cs" />
     <Compile Include="Global.asax.cs">
@@ -267,10 +272,12 @@
     <Compile Include="Providers\ThingTalkApplicationOAuthProvider.cs" />
     <Compile Include="Providers\MyLog4NetInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Repository\FileStorage\NotifyRepository.cs" />
     <Compile Include="Repository\FileStorage\ClientRepository.cs" />
     <Compile Include="Repository\FileStorage\RefreshTokenRepository.cs" />
     <Compile Include="Repository\Interfaces\IClientRepository.cs" />
     <Compile Include="Repository\Interfaces\IRefreshTokenRepository.cs" />
+    <Compile Include="Repository\Interfaces\INotifyRepository.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

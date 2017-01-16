@@ -33,9 +33,9 @@ namespace ThingTalk.OpenApi.Controllers
         /// <summary>
         /// 注销登录
         /// </summary>
-        /// <returns></returns>
+        /// <returns>操作结果</returns>
         [HttpGet]
-        public string Logout()
+        public BaseResult Logout()
         {
             var oAuthIdentity = User.Identity as ClaimsIdentity;
             var entity = _refreshTokenService.FindByUserName(oAuthIdentity.Name);
@@ -44,8 +44,8 @@ namespace ThingTalk.OpenApi.Controllers
                 _refreshTokenService.Remove(entity.Id);
             }
 
-            var json = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_SUCCESS, "Logout");
-            return JsonConvert.SerializeObject(json);
+            var baseRet = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_SUCCESS, "Logout");
+            return baseRet;
         }
 
         /// <summary>
@@ -54,17 +54,16 @@ namespace ThingTalk.OpenApi.Controllers
         /// <param name="OldPassword"></param>
         /// <param name="NewPassword"></param>
         /// <returns></returns>
-        [HttpGet]        
-        public async Task<string> ChangePassword(string OldPassword, string NewPassword)
+        [HttpGet]
+        public async Task<BaseResult> ChangePassword(string OldPassword, string NewPassword)
         {
             var type = "ChangePassword";
             var oAuthIdentity = User.Identity as ClaimsIdentity;
             var entity = _refreshTokenService.FindByUserName(oAuthIdentity.Name);
             if (entity == null)
             {
-                var json = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_NoAuthorized, type);
-                json.Type = type;
-                return JsonConvert.SerializeObject(json);
+                var baseResult1 = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_NoAuthorized, type);
+                return baseResult1;
             }
 
             var authData = oAuthIdentity.Name.Split(',');
@@ -72,22 +71,15 @@ namespace ThingTalk.OpenApi.Controllers
             {
                 var username = authData[0];
                 var deptcode = authData[1];
-                var json = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_SUCCESS, type);
-                if (await _clientService.ChangePassword(authData[0], authData[1], OldPassword, NewPassword))
+                var baseResult2 = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_SUCCESS, type);
+                if (!await _clientService.ChangePassword(authData[0], authData[1], OldPassword, NewPassword))
                 {
-                    json.Type = type;
+                    baseResult2 = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_NoAuthorized, type);
                 }
-                else
-                {
-                    json = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_NoAuthorized, type);
-                    json.Type = type;
-                }
-                return JsonConvert.SerializeObject(json);
+                return baseResult2;
             }
 
-            var _respjson = BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_NoAuthorized, type);
-            _respjson.Type = type;
-            return JsonConvert.SerializeObject(_respjson);
+            return BaseResultHelper.ReturnBaseResult(E_TRUTALK_RESP.RESP_NoAuthorized, type);
         }
     }
 }

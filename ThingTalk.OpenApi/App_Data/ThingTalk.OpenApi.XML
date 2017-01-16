@@ -154,6 +154,81 @@
             <param name="Id"></param>
             <returns></returns>
         </member>
+        <member name="T:ThingTalk.OpenApi.Application.Domain.E_NOTIFY_TYPE">
+            <summary>
+            通知类型
+            </summary>
+        </member>
+        <member name="F:ThingTalk.OpenApi.Application.Domain.E_NOTIFY_TYPE.TYPE_FILE_UPLOAD">
+            <summary>
+            文件上传通知
+            </summary>        
+        </member>
+        <member name="F:ThingTalk.OpenApi.Application.Domain.E_NOTIFY_TYPE.TYPE_PARAMS_DOWNLOAD">
+            <summary>
+            参数下载通知
+            </summary>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Application.Domain.TruTalkMsg`1">
+            <summary>
+            通知信息实体
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.TruTalkMsg`1.MsgType">
+            <summary>
+            通知类型
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.TruTalkMsg`1.LstData">
+            <summary>
+            自定义回复集合
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.TruTalkMsg`1.MsgData">
+            <summary>
+            通知内容(JSON序列化的LstData)
+            </summary>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Application.Domain.Notify">
+            <summary>
+            通知信息实体
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.Notify.ID">
+            <summary>
+            通知ID
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.Notify.Type">
+            <summary>
+            通知类型
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.Notify.DeviceID">
+            <summary>
+            设备ID/手机号码
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.Notify.DeviceName">
+            <summary>
+            设备名称
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.Notify.Content">
+            <summary>
+            通知内容
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.Notify.ReadSign">
+            <summary>
+            已读标记(1:已读,0:未读)
+            </summary>
+        </member>
+        <member name="P:ThingTalk.OpenApi.Application.Domain.Notify.OccurTime">
+            <summary>
+            发生时间
+            </summary>
+        </member>
         <member name="T:ThingTalk.OpenApi.Application.Domain.Account">
             <summary>
             帐户信息
@@ -708,6 +783,43 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="T:ThingTalk.OpenApi.Controllers.NotifyController">
+            <summary>
+            通知相关接口
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Controllers.NotifyController.GetNotifyList(System.Int32)">
+            <summary>
+            获取通知列表, 默认返回未读通知
+            </summary>
+            <param name="readSign">已读标记(1:已读,0:未读)</param>
+            <returns>通知列表, 返回数据在LstData中</returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Controllers.NotifyController.ReadNotify(System.Int32)">
+            <summary>
+            置通知已读取标记
+            </summary>
+            <param name="notifyID">通知ID</param>        
+            <returns>操作结果</returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Controllers.NotifyController.DeleteNotify(System.Int32)">
+            <summary>
+            删除通知
+            </summary>
+            <param name="notifyID">通知ID</param>        
+            <returns>操作结果</returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Controllers.TruTalkServiceController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Controllers.TruTalkServiceController.RequestPhoneData(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ThingTalk.OpenApi.Controllers.HomeController">
             <summary>
             
@@ -734,7 +846,7 @@
             <summary>
             注销登录
             </summary>
-            <returns></returns>
+            <returns>操作结果</returns>
         </member>
         <member name="M:ThingTalk.OpenApi.Controllers.AccountController.ChangePassword(System.String,System.String)">
             <summary>
@@ -813,9 +925,23 @@
             <param name="to"></param>
             <param name="message"></param>
         </member>
+        <member name="M:ThingTalk.OpenApi.Hubs.TruTalkHub.pushTruTalkMsg(System.String,System.String,System.String)">
+            <summary>
+            推送消息
+            </summary>
+            <param name="to">推送对象</param>
+            <param name="msgType">消息类别</param>
+            <param name="msgData">消息内容</param>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Hubs.TruTalkHub.CreateMessage">
+            <summary>
+            创建通知
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:ThingTalk.OpenApi.Hubs.TruTalkHub.bind(System.String)">
             <summary>
-            增加新用户
+            绑定新用户
             </summary>
         </member>
         <member name="M:ThingTalk.OpenApi.Hubs.TruTalkHub.OnConnected">
@@ -947,6 +1073,11 @@
             自定义回复类
             </summary>
         </member>
+        <member name="P:ThingTalk.OpenApi.Models.TruTalkResult`1.LstData">
+            <summary>
+            自定义回复集合
+            </summary>
+        </member>
         <member name="T:ThingTalk.OpenApi.Models.UserInfo">
             <summary>
             用户信息实体
@@ -1048,6 +1179,25 @@
             验证持有 refresh token 的客户端
             </summary>
             <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Repository.FileStorage.NotifyRepository">
+            <summary>
+            实现了INotifyRepository接口的仓库类
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.FileStorage.NotifyRepository.FindNotifyByReadSign(System.Int32)">
+            <summary>
+            根据已读标记查找通知列表
+            </summary>
+            <param name="readSign">已读标记(1:已读,0:未读)</param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.FileStorage.NotifyRepository.SetNotifyReadSign(System.Int32)">
+            <summary>
+            设置已读标记
+            </summary>
+            <param name="notifyID">通知ID</param>
             <returns></returns>
         </member>
         <member name="T:ThingTalk.OpenApi.Repository.FileStorage.ClientRepository">
@@ -1181,6 +1331,25 @@
             删除RefreshToken
             </summary>
             <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ThingTalk.OpenApi.Repository.Interfaces.INotifyRepository">
+            <summary>
+            INotifyRepository接口
+            </summary>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.Interfaces.INotifyRepository.FindNotifyByReadSign(System.Int32)">
+            <summary>
+            根据已读标记查找通知列表
+            </summary>
+            <param name="readSign">已读标记(1:已读,0:未读)</param>
+            <returns></returns>
+        </member>
+        <member name="M:ThingTalk.OpenApi.Repository.Interfaces.INotifyRepository.SetNotifyReadSign(System.Int32)">
+            <summary>
+            设置已读标记
+            </summary>
+            <param name="notifyID">通知ID</param>
             <returns></returns>
         </member>
     </members>

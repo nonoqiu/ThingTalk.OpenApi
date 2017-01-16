@@ -13,6 +13,12 @@ namespace ThingTalk.OpenApi
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //// 自定义路由映射
+            //var defaults = new RouteValueDictionary { { "name", "*" }, { "id", "*" } };
+            //var _name = "TruTalkService";
+            //var _url = "~/TruTalkService.asmx";
+            //routes.MapPageRoute(_name, "TruTalkService", _url);
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
