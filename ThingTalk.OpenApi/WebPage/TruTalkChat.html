@@ -25,8 +25,9 @@
                 $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
             };
 
-            chat.client.pushTruTalkMsg = function (name, message) {
+            chat.client.pushTruTalkMsg = function (msgType, msgData) {
                 $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
+                console.log(msgType + ": " + msgData);
             };
 
             // Get the user name and store it to prepend to messages.

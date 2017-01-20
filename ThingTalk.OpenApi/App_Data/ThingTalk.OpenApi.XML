@@ -811,12 +811,12 @@
         </member>
         <member name="T:ThingTalk.OpenApi.Controllers.TruTalkServiceController">
             <summary>
-            
+            WebService请求控制器
             </summary>
         </member>
         <member name="M:ThingTalk.OpenApi.Controllers.TruTalkServiceController.RequestPhoneData(System.String,System.String)">
             <summary>
-            
+            兼容之前的WebService请求
             </summary>
             <returns></returns>
         </member>
